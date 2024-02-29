@@ -1,6 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget
-from PyQt5 import QtCore
+from PyQt5.QtGui import QDesktopServices
+from PyQt5.QtCore import QUrl, Qt  # Adicionando a importação de Qt
 
 class Window(QMainWindow):
     def __init__(self):
@@ -16,14 +17,21 @@ class Window(QMainWindow):
         layout = QVBoxLayout(self.central_widget)
 
         # Criar botão
-        button = QPushButton("Botão")
-        layout.addWidget(button, alignment=QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
+        button = QPushButton("Abrir Link")
+        layout.addWidget(button, alignment=Qt.AlignBottom | Qt.AlignRight)  # Use Qt.Align* em vez de QtCore.Qt.Align*
 
         # Adicionar margem e preenchimento (padding) ao botão
         button.setContentsMargins(10, 10, 10, 10)
 
         # Definir estilo do botão
         button.setStyleSheet("background-color: white; padding: 15px;")
+
+        # Conectar sinal clicked do botão à função openLink
+        button.clicked.connect(self.openLink)
+
+    def openLink(self):
+        url = "https://www.twitch.tv/nako"  # Coloque aqui o link que deseja abrir
+        QDesktopServices.openUrl(QUrl(url))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
